@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="container" style="margin-top: 100px;">
+    <div class="row">
+        <div class="col-sm-12">
+            <form method="POST">
+                <label for="category" class="form-label">Post Category</label>
+                <select class="form-select" id="category" name="catselect" aria-label="categories" required>
+                    <option selected>Choose a category</option>
+                    <option value="1">Technology</option>
+                    <option value="2">Travel</option>
+                    <option value="3">Food</option>
+                </select>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Sub Title</label>
+                    <input type="text" class="form-control" id="sub_title" name="sub_title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="pitch" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" onkeyup="countChar(this)" name="description"
+                        rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="pitch" class="form-label">Content</label>
+                    <textarea class="form-control" id="content" onkeyup="countChar(this)" name="content" rows="5"
+                        required></textarea>
+
+                </div>
+
+
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mb-3">Add Post</button>
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
