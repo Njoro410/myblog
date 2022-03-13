@@ -7,6 +7,10 @@ class Config:
     """
     SECRET_KEY = os.environ.get('SECRET_KEY')
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://brian:12345@localhost/myblog'
+    UPLOADED_PHOTOS_DEST ='app/static/photos'
+    
+class TestConfig(Config):
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://james:password@localhost/myblog_test'
 
 
 class ProdConfig(Config):
@@ -29,5 +33,6 @@ class DevConfig(Config):
     
 config_options = {
     'development': DevConfig,
-    'production':ProdConfig
+    'production':ProdConfig,
+    'test':TestConfig
 }
