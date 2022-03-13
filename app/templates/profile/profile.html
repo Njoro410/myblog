@@ -1,0 +1,47 @@
+{% extends 'base.html'%}
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+{% endblock %}
+{% block content %}
+
+
+
+<div class="container" style="margin-top: 65px;" id="usp">
+    <div class="row">
+        <div class="col-sm-6" style="margin-top: 50px;">
+            {% if user.profile_pic_path %}
+            <img src="{{url_for('static',filename=current_user.profile_pic_path)}}" alt="" class="circle"
+                style="width: 70%;">
+            {%else%}
+            <p>No profile picture</p>
+            {% endif %}
+        </div>
+        <div class="col-sm-6">
+
+            <h3> {{user.fistname| capitalize}}&nbsp;{{user.lastname | capitalize}} </h3>
+
+            <!--Displaying user bio-->
+            {% if user.bio %}
+            <p> {{user.bio}}</p>
+            {%else%}
+            <p> {{user.firstname| capitalize}} has no bio </p>
+            {% endif %}
+            <p>{{posts | count}} posts</p>
+
+            {% if user == current_user %}
+            <a href="{{url_for('views.update_profile',id=user.id)}}">Edit bio</a>
+            {% endif %}
+
+            <form action="{{url_for('views.update_pic',id=user.id)}}" method="post"
+                enctype="multipart/form-data">
+                <input type="file" name="photo" class="form-control" required>
+                <input type="submit">
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
