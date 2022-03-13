@@ -9,11 +9,13 @@ import datetime
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
 class Quote():
-    def __init__(self,author,quote):
+    def __init__(self, author, quote):
         self.author = author
         self.quote = quote
-    
+
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
@@ -21,6 +23,7 @@ class User(UserMixin, db.Model):
     firstname = db.Column(db.String(255))
     lastname = db.Column(db.String(255))
     email = db.Column(db.String(255), unique=True, index=True)
+    bio = db.Column(db.String(1000))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     pass_secure = db.Column(db.String(255))
     about = db.Column(db.String(255))
@@ -71,8 +74,9 @@ class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
     sub_title = db.Column(db.String(255))
-    content = db.Column(db.String(255))
-    posted = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    description = db.Column(db.String(255))
+    content = db.Column(db.String(1000))
+    posted = db.Column(db.DateTime, default=datetime.datetime.now)
     likes = db.Column(db.Integer)
     dislikes = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
@@ -82,7 +86,7 @@ class Posts(db.Model):
     def __repr__(self):
         return f'User {self.content}'
 
-    def save_pitch(self):
+    def save_post(self):
         db.session.add(self)
         db.session.commit()
 
@@ -90,22 +94,24 @@ class Posts(db.Model):
     def get_posts(cls):
         posts = Posts.query.all()
         return posts
-    
+
+
 class Comments(db.Model):
     __tablename__ = 'comments'
-    
+
     id = db.Column(db.Integer, primary_key=True)
     comment = db.Column(db.String(255))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
-    
+    posted = db.Column(db.DateTime, default=datetime.datetime.now)
+
     def __repr__(self):
         return f'User {self.comment}'
-    
+
     def save_comment(self):
         db.session.add(self)
         db.session.commit()
-    
+
     @classmethod
     def get_comments(cls, id):
         comments = Comments.query.filter_by(post_id=id).all()
