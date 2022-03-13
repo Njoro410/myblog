@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% import "material/wtf.html" as wtf %}
+{%block css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="container" style="margin-top: 60px;">
+    <div class="row">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="title">{{post.title}}</h3>
+                <h4 class="text-muted">{{post.sub_title}}</h4>
+                <hr>
+                <h5>{{post.description}}</h5>
+                <p>By:&nbsp;{{post.user.firstname}}&nbsp;{{post.user.lastname}}</p>
+                <p>Posted on:&nbsp;{{post.posted.strftime("%a,%d %b, %Y")}} at&nbsp; {{post.posted.strftime("%I-%M-%S")}}</p>
+                <p>Category:&nbsp;{{post.categories.name}}</p>
+                {% if user.role_id == 1%}
+                <a href="{{url_for('views.delete_post',id=post.id)}}" class="btn btn-danger" title="Delete Post">Delete
+                    Post</a>
+                <a href="{{url_for('views.update',id=post.id)}}" class="btn btn-primary">Update Post</a>
+                {% endif %}
+                <hr>
+                <h4>{{post.content}}</h4>
+                <span>
+                    <a href="/post/{{post.id}}?like=1"><i class="material-icons"
+                            style="float: left;">thumb_up_alt</i></a>&nbsp;{{post.likes}}
+                    <a href="/post/{{post.id}}?dislike=1"><i
+                            class="material-icons">thumb_down_alt</i></a>{{post.dislikes}}
+                </span>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+<div class="container">
+    <hr>
+
+    <div class="row">
+        {% if current_user.is_authenticated %}
+        <div class="col-sm-12">
+            {{ wtf.quick_form(comment_form) }}
+        </div>
+        {% else %}
+        <h6 class="text-muted">You need to be signed in to comment</h6>
+        {% endif %}
+    </div>
+    <div class="container">
+        <div class="row">
+            <h3 style="text-align: center;">Comments</h3>
+            <div class="col-sm-12">
+                <hr>
+
+                {% if comments %}
+                {% for comment in comments %}
+                <ul class="collection">
+                    <li class="collection-item avatar">
+                        <img src="{{url_for('static',filename=user.profile_pic_path)}}" alt="profile pic" class="circle">
+                        <span class="title">{{comment.user.firstname}} &nbsp;{{comment.user.lastname}}</span>
+                        <p class="text-muted">{{comment.posted.strftime("%a,%d %b, %Y")}} at&nbsp; {{comment.posted.strftime("%I-%M-%S")}}</p>
+                        <p>{{comment.comment}}</p>
+
+                        {% if user.role_id == 1%}
+                        <a href="{{url_for('views.delete',id=comment.id)}}" class="secondary-content"><i
+                                class="material-icons">delete_forever</i></a>
+                        {% endif %}
+                    </li>
+                </ul>
+                {% endfor %}
+                {% else %}
+                <p>No comments yet</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
