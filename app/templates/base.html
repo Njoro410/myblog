@@ -10,18 +10,18 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    {<title>{% block title %} {% endblock %}</title>}
-    {% block css %} {% endblock %}
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <title>{% block title %} {% endblock %}</title>
+    {% block css %} {% endblock %} 
 </head>
 
 <body>
-    {% block top %} {% endblock %}
-
-    
-    <nav class="navbar  navbar-expand-lg navbar-light bg-light fixed-top">
+    {% block mac %} {% endblock %}
+    <nav class="navbar  navbar-expand-lg bg-light sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/"><span id="min">minute</span><span id="go">Go</span></a>
+            <a class="navbar-brand" href="/">
+                <img src="{{url_for('static',filename='img/logo.png')}}" alt="" width="50%" height="auto">
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -29,21 +29,33 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        <a class="dropdown-item" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/pitches">Pitches</a>
+                        <a class="dropdown-item" href="{{url_for('views.all_posts')}}">All Posts</a>
+                    </li>
+                    <li class="nav-item">
+                    <li>
+                        <a class="dropdown-item" href="{{url_for('views.category',id=1)}}">Technology</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{url_for('views.category',id=2)}}">Travel</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{url_for('views.category',id=3)}}">Food</a>
+                    </li>
+
                     </li>
 
                     {% if current_user.is_authenticated %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                        <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            {{current_user.username}}
+                            {{current_user.firstname}}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item"
-                                    href="{{url_for('views.profile',uname=current_user.username,id = current_user.id)}}">Profile</a>
+                                    href="{{url_for('views.profile',id = current_user.id)}}">Profile</a>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">
@@ -53,15 +65,19 @@
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{url_for('auth.login')}}">Sign in</a>
+                        <a class="dropdown-item" href="{{url_for('auth.login')}}">Sign in</a>
                     </li>
                     {% endif %}
                 </ul>
             </div>
         </div>
-    </nav>
 
-    {% block content %} {% endblock %}
+    </nav>
+    
+
+    {% block content %} 
+
+    {% endblock %}
 
     {% block matjs %} {% endblock %}
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
