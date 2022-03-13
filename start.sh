@@ -1,3 +1,3 @@
-export SECRET_KEY='qwerty'
+export SECRET_KEY='secretkey'
 
 python3 manage.py server
