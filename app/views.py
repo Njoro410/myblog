@@ -11,7 +11,9 @@ from app.request import get_quotes
 
 views = Blueprint('views', __name__)
 conn = psycopg2.connect(
-    'dbname=d34993vdvhpf6o user=fbohtwdnvfhgny password=070c1842edff64c8eb7002afefb02c40e52840dcd93579b20c472cf72a067849 host=ec2-52-44-209-165.compute-1.amazonaws.com')
+    # 'dbname=d34993vdvhpf6o user=fbohtwdnvfhgny password=070c1842edff64c8eb7002afefb02c40e52840dcd93579b20c472cf72a067849 host=ec2-52-44-209-165.compute-1.amazonaws.com'
+    'dbname=myblog user=brian password=12345 host=localhost'
+    )
 
 cur = conn.cursor()
 email = cur.execute("SELECT email FROM users;")
