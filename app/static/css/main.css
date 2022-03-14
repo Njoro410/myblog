@@ -1,29 +1,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 
-body,html {
-    scroll-behavior: smooth;
-    font-family: 'Acme', sans-serif;
+body,
+html {
+  scroll-behavior: smooth;
+  font-family: 'Acme', sans-serif;
 }
+
 #brian {
-    color: #0e927e;
+  color: #0e927e;
 }
-.text
-{
+
+.text {
   position: relative;
   z-index: 10;
-
 }
+
+.content {
+  font-family: 'Playfair Display', serif;
+}
+
 .form-inline {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-  }
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
 .title {
   color: #0e927e;
 }
-.text h2
-{
+
+.text h2 {
   font-size: 5em;
   font-weight: 500;
   color: rgb(0, 0, 0);
@@ -33,8 +41,8 @@ body,html {
   font-family: 'Patrick Hand', cursive;
 
 }
-.text h3
-{
+
+.text h3 {
   font-size: 4em;
   font-weight: 200;
   color: rgb(0, 0, 0);
@@ -43,8 +51,8 @@ body,html {
   font-family: 'Patrick Hand', cursive;
 
 }
-.text p
-{
+
+.text p {
   font-size: 1.1em;
   color: #0e927e;
   margin: 20px 0;

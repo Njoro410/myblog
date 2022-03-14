@@ -23,7 +23,7 @@
                 <a href="{{url_for('views.update',id=post.id)}}" class="btn btn-primary">Update Post</a>
                 {% endif %}
                 <hr>
-                <h4>{{post.content}}</h4>
+                <p class="content">{{post.content}}</p>
                 <span>
                     <a href="/post/{{post.id}}?like=1"><i class="material-icons"
                             style="float: left;">thumb_up_alt</i></a>&nbsp;{{post.likes}}
@@ -63,7 +63,7 @@
                         <p class="text-muted">{{comment.posted.strftime("%a,%d %b, %Y")}} at&nbsp; {{comment.posted.strftime("%I-%M-%S")}}</p>
                         <p>{{comment.comment}}</p>
 
-                        {% if user.role_id == 1%}
+                        {% if user.role_id == 1 or comment.user.id==current_user.id %}
                         <a href="{{url_for('views.delete',id=comment.id)}}" class="secondary-content"><i
                                 class="material-icons">delete_forever</i></a>
                         {% endif %}
