@@ -75,7 +75,7 @@ class Posts(db.Model):
     title = db.Column(db.String(255))
     sub_title = db.Column(db.String(255))
     description = db.Column(db.String(255))
-    content = db.Column(db.String(1000))
+    content = db.Column(db.Text())
     posted = db.Column(db.DateTime, default=datetime.datetime.now)
     likes = db.Column(db.Integer)
     dislikes = db.Column(db.Integer)
