@@ -58,12 +58,14 @@
                 {% for comment in comments %}
                 <ul class="collection">
                     <li class="collection-item avatar">
+                        {% if profile_pic_path %}
                         <img src="{{url_for('static',filename=user.profile_pic_path)}}" alt="profile pic" class="circle">
+                        {% endif %}
                         <span class="title">{{comment.user.firstname}} &nbsp;{{comment.user.lastname}}</span>
                         <p class="text-muted">{{comment.posted.strftime("%a,%d %b, %Y")}} at&nbsp; {{comment.posted.strftime("%I-%M-%S")}}</p>
                         <p>{{comment.comment}}</p>
 
-                        {% if user.role_id == 1 %}
+                        {% if user.role_id == 1 or comment.user.id ==current_user.id%}
                         <a href="{{url_for('views.delete',id=comment.id)}}" class="secondary-content"><i
                                 class="material-icons">delete_forever</i></a>
                         {% endif %}

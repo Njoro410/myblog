@@ -1,13 +1,23 @@
-from flask import Blueprint, render_template, request, redirect,abort,url_for
+from flask import Blueprint, render_template, request, redirect, abort, url_for
 from flask_login import current_user, login_required
 from app.models import Categories, Comments, Posts, User
 from app.forms import CommentForm, UpdateProfile
-from . import db,photos
-
+from email.message import EmailMessage
+import psycopg2
+import smtplib
+from . import db, photos
 from app.request import get_quotes
 
 
 views = Blueprint('views', __name__)
+conn = psycopg2.connect(
+    'dbname=d34993vdvhpf6o user=fbohtwdnvfhgny password=070c1842edff64c8eb7002afefb02c40e52840dcd93579b20c472cf72a067849 host=ec2-52-44-209-165.compute-1.amazonaws.com')
+
+cur = conn.cursor()
+email = cur.execute("SELECT email FROM users;")
+email_list = cur.fetchall()
+for email in email_list:
+    print(email)
 
 
 @views.route('/')
@@ -15,7 +25,7 @@ def index():
     quote = get_quotes()
     post = Posts.get_posts()
 
-    return render_template('index.html', quote=quote, posts=post)
+    return render_template('index.html', quote=quote, posts=post, user=current_user)
 
 
 @views.route('/add_post', methods=['GET', 'POST'])
@@ -31,6 +41,26 @@ def add_post():
         new_post = Posts(title=title, sub_title=sub_title, description=description, content=content,
                          categories_id=category, user_id=current_user.id, likes=0, dislikes=0)
         new_post.save_post()
+
+        server = smtplib.SMTP(host='smtp.gmail.com', port=587)
+        server.starttls()
+        server.login("brian.lyonne@gmail.com", "Njoroge1.")
+        for email in email_list:
+            msg = EmailMessage()
+            msg.set_content("Hey, there's a new post, go check it out")
+            msg.add_alternative("""\
+                <!DOCTYPE html>
+                    <html>
+                        <body>
+                            <h1 style="color:SlateGray;">Don't miss a thing, go check the new post</h1>
+                        </body>
+                    </html>
+                """, subtype='html')
+            msg['Subject'] = "New Post Alert"
+            msg['From'] = "brian.lyonne@gmail.com"
+            msg['To'] = email
+            server.send_message(msg)
+        server.quit()
 
         return redirect('all_posts')
 
@@ -98,7 +128,7 @@ def category(id):
     return render_template('category.html', posts=posts, category=cat)
 
 
-@views.route('/update/<int:id>', methods=['GET','POST'])
+@views.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
     pid = Posts.query.get_or_404(id)
     title_to_update = Posts.query.get_or_404(id)
@@ -111,11 +141,10 @@ def update(id):
         sub_title_to_update.sub_title = request.form.get('sub_title')
         description_to_update.description = request.form.get('description')
         content_to_update.content = request.form.get('content')
-       
 
         db.session.commit()
         # return redirect('post/pid')
-        
+
     return render_template('update.html', title_to_update=title_to_update, sub_title_to_update=sub_title_to_update, description_to_update=description_to_update, content_to_update=content_to_update)
 
 
@@ -124,11 +153,10 @@ def profile(id):
     user = User.query.filter_by(id=id).first()
     post = Posts.query.filter_by(user_id=id).all()
 
-
     if user is None:
         abort(404)
 
-    return render_template("profile/profile.html", user=user,posts = post)
+    return render_template("profile/profile.html", user=user, posts=post)
 
 
 @views.route('/user/<id>/update', methods=['GET', 'POST'])
@@ -162,9 +190,9 @@ def update_pic(id):
         db.session.commit()
     return redirect(url_for('views.profile', id=id))
 
+
 @views.route('/all_posts')
 def all_posts():
     posts = Posts.get_posts()
-    
-    return render_template('all_posts.html', user=current_user, posts = posts)
- 
+
+    return render_template('all_posts.html', user=current_user, posts=posts)
