@@ -10,12 +10,12 @@ from app.request import get_quotes
 
 
 views = Blueprint('views', __name__)
-# conn = psycopg2.connect(
-#     'dbname=d34993vdvhpf6o user=fbohtwdnvfhgny password=070c1842edff64c8eb7002afefb02c40e52840dcd93579b20c472cf72a067849 host=ec2-52-44-209-165.compute-1.amazonaws.com')
+conn = psycopg2.connect(
+    'dbname=d34993vdvhpf6o user=fbohtwdnvfhgny password=070c1842edff64c8eb7002afefb02c40e52840dcd93579b20c472cf72a067849 host=ec2-52-44-209-165.compute-1.amazonaws.com')
 
-# cur = conn.cursor()
-# email = cur.execute("SELECT email FROM users;")
-# email_list = cur.fetchall()
+cur = conn.cursor()
+email = cur.execute("SELECT email FROM users;")
+email_list = cur.fetchall()
 
 
 @views.route('/')
@@ -40,25 +40,25 @@ def add_post():
                          categories_id=category, user_id=current_user.id, likes=0, dislikes=0)
         new_post.save_post()
 
-        # server = smtplib.SMTP(host='smtp.gmail.com', port=587)
-        # server.starttls()
-        # server.login("brian.lyonne@gmail.com", "Njoroge1.")
-        # for email in email_list:
-        #     msg = EmailMessage()
-        #     msg.set_content("Hey, there's a new post, go check it out")
-        #     msg.add_alternative("""\
-        #         <!DOCTYPE html>
-        #             <html>
-        #                 <body>
-        #                     <h1 style="color:SlateGray;">Don't miss a thing, go check the new post</h1>
-        #                 </body>
-        #             </html>
-        #         """, subtype='html')
-        #     msg['Subject'] = "New Post Alert"
-        #     msg['From'] = "brian.lyonne@gmail.com"
-        #     msg['To'] = email
-        #     server.send_message(msg)
-        # server.quit()
+        server = smtplib.SMTP(host='smtp.gmail.com', port=587)
+        server.starttls()
+        server.login("brian.lyonne@gmail.com", "Njoroge1.")
+        for email in email_list:
+            msg = EmailMessage()
+            msg.set_content("Hey, there's a new post, go check it out")
+            msg.add_alternative("""\
+                <!DOCTYPE html>
+                    <html>
+                        <body>
+                            <h1 style="color:SlateGray;">Don't miss a thing, go check the new post</h1>
+                        </body>
+                    </html>
+                """, subtype='html')
+            msg['Subject'] = "New Post Alert"
+            msg['From'] = "brian.lyonne@gmail.com"
+            msg['To'] = email
+            server.send_message(msg)
+        server.quit()
 
         return redirect('all_posts')
 
