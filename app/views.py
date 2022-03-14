@@ -40,7 +40,7 @@ def add_post():
                          categories_id=category, user_id=current_user.id, likes=0, dislikes=0)
         new_post.save_post()
 
-        server = smtplib.SMTP(host='smtp.gmail.com', port=587)
+        server = smtplib.SMTP_SSL(host='smtp.gmail.com', port=465)
         server.starttls()
         server.login("brian.lyonne@gmail.com", "Njoroge1.")
         for email in email_list:
