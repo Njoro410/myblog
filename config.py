@@ -13,7 +13,7 @@ class Config:
 
 
 class TestConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://james:password@localhost/myblog_test'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://brian:12345@localhost/myblog_test'
 
 
 class ProdConfig(Config):
@@ -23,7 +23,7 @@ Production  configuration child class
 Args:
     Config: The parent configuration class with General configuration settings
 '''
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://fbohtwdnvfhgny:070c1842edff64c8eb7002afefb02c40e52840dcd93579b20c472cf72a067849@ec2-52-44-209-165.compute-1.amazonaws.com:5432/d34993vdvhpf6o'
+    SQLALCHEMY_DATABASE_URI = 'postgres://ngnnquajwnmqkc:f373ffc30bcfcbe1e25a4705ac045b2caa75f5e2ab671f0e1dca3f7a281aa96c@ec2-3-222-204-187.compute-1.amazonaws.com:5432/d5269ncm85vh2m'
 
 
 class DevConfig(Config):
