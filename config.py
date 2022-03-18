@@ -23,7 +23,7 @@ Production  configuration child class
 Args:
     Config: The parent configuration class with General configuration settings
 '''
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://ngnnquajwnmqkc:f373ffc30bcfcbe1e25a4705ac045b2caa75f5e2ab671f0e1dca3f7a281aa96c@ec2-3-222-204-187.compute-1.amazonaws.com:5432/d5269ncm85vh2m'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://pnbdxymtuwxjnd:fbf57888dc8e2148dc772238e5842b750d13b2ec574627b4d21285b4ba5f6652@ec2-44-194-69-15.compute-1.amazonaws.com:5432/df6g1utl982icu'
 
 
 class DevConfig(Config):
